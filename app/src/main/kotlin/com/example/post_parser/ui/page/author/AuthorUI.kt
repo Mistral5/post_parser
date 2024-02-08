@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.post_parser.R
 import com.example.post_parser.data.DataState
 import com.example.post_parser.data.model.Author
@@ -50,10 +52,10 @@ fun AuthorPageUI(component: AuthorPage) {
       val author: Author = state.data as Author
       Column(
         modifier =
-          Modifier
-            .fillMaxSize()
-            .background(color = Pink)
-            .padding(12.dp),
+        Modifier
+          .fillMaxSize()
+          .background(color = Pink)
+          .padding(12.dp),
       ) {
         Row(
           modifier = Modifier.fillMaxWidth(),
@@ -63,9 +65,9 @@ fun AuthorPageUI(component: AuthorPage) {
         }
         Text(
           modifier =
-            Modifier
-              .padding(top = 12.dp, start = 12.dp, end = 12.dp)
-              .fillMaxWidth(),
+          Modifier
+            .padding(top = 12.dp, start = 12.dp, end = 12.dp)
+            .fillMaxWidth(),
           text = author.username,
           style = ItimTypography.titleLarge,
           textAlign = TextAlign.Center,
@@ -81,13 +83,13 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-              CardDefaults.cardColors(
-                containerColor = Color.White,
-              ),
+            CardDefaults.cardColors(
+              containerColor = Color.White,
+            ),
             elevation =
-              CardDefaults.cardElevation(
-                defaultElevation = 12.dp,
-              ),
+            CardDefaults.cardElevation(
+              defaultElevation = 12.dp,
+            ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
@@ -131,13 +133,13 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-              CardDefaults.cardColors(
-                containerColor = Color.White,
-              ),
+            CardDefaults.cardColors(
+              containerColor = Color.White,
+            ),
             elevation =
-              CardDefaults.cardElevation(
-                defaultElevation = 12.dp,
-              ),
+            CardDefaults.cardElevation(
+              defaultElevation = 12.dp,
+            ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
@@ -145,14 +147,14 @@ fun AuthorPageUI(component: AuthorPage) {
               Text(
                 modifier = Modifier.fillMaxWidth(),
                 text =
-                  "street: ${author.address.street}\n" +
-                    "suite: ${author.address.suite}\n" +
-                    "city: ${author.address.city}\n" +
-                    "zipcode: ${author.address.zipcode}\n" +
-                    "geo: { " +
-                    "lat: ${author.address.geo.lat}, " +
-                    "lng: ${author.address.geo.lng} " +
-                    "}",
+                "street: ${author.address.street}\n" +
+                  "suite: ${author.address.suite}\n" +
+                  "city: ${author.address.city}\n" +
+                  "zipcode: ${author.address.zipcode}\n" +
+                  "geo: { " +
+                  "lat: ${author.address.geo.lat}, " +
+                  "lng: ${author.address.geo.lng} " +
+                  "}",
                 style = ItimTypography.bodyMedium,
                 color = Lilac,
               )
@@ -171,13 +173,13 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-              CardDefaults.cardColors(
-                containerColor = Color.White,
-              ),
+            CardDefaults.cardColors(
+              containerColor = Color.White,
+            ),
             elevation =
-              CardDefaults.cardElevation(
-                defaultElevation = 12.dp,
-              ),
+            CardDefaults.cardElevation(
+              defaultElevation = 12.dp,
+            ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
@@ -185,9 +187,9 @@ fun AuthorPageUI(component: AuthorPage) {
               Text(
                 modifier = Modifier.fillMaxWidth(),
                 text =
-                  "name: ${author.company.name}\n" +
-                    "catchPhrase: ${author.company.catchPhrase}\n" +
-                    "bs: ${author.company.bs}",
+                "name: ${author.company.name}\n" +
+                  "catchPhrase: ${author.company.catchPhrase}\n" +
+                  "bs: ${author.company.bs}",
                 style = ItimTypography.bodyMedium,
                 color = Lilac,
               )
@@ -200,10 +202,10 @@ fun AuthorPageUI(component: AuthorPage) {
     is DataState.Loading -> {
       Column(
         modifier =
-          Modifier
-            .fillMaxSize()
-            .background(color = Pink)
-            .padding(12.dp),
+        Modifier
+          .fillMaxSize()
+          .background(color = Pink)
+          .padding(12.dp),
       ) {
         Row(
           modifier = Modifier.fillMaxWidth(),
@@ -225,10 +227,19 @@ fun AuthorPageUI(component: AuthorPage) {
       }
 
       Column(
-        modifier = Modifier.padding(vertical = 12.dp),
+        modifier =
+        Modifier
+          .fillMaxSize()
+          .background(color = Pink)
+          .padding(12.dp),
       ) {
-        BasicIconButton(Icons.Default.ArrowBack, component::onBackButtonClick)
-        SnackbarHost(snackBarHostState.value)
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+          BasicIconButton(Icons.Default.ArrowBack, component::onBackButtonClick)
+        }
+        SnackbarHost(snackBarHostState.value, modifier = Modifier)
       }
     }
   }
