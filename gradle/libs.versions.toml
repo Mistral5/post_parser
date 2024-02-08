@@ -1,0 +1,60 @@
+[versions]
+android-core = "1.12.0"
+androidx-lifecycle= "2.7.0"
+kotlin = "1.9.22"
+ktor = "2.3.7"
+kotlin-android = "1.9.0"
+compose = "1.6.0"
+compose-plugin = "1.5.11"
+compose-compiler = "1.5.8"
+#android-minSdk = "24"
+#android-compileSdk = "34"
+#android-targetSdk = "34"
+agp = "8.2.2"
+androidx-activity-compose = "1.8.2"
+decompose = "2.2.0-alpha04"
+kotlinx-serialization = "1.6.0"
+coroutine = "1.7.3"
+ktlint = "12.1.0"
+ktorVersion = "2.3.4"
+ui-tooling = "1.6.0"
+sqldelight = "2.0.1"
+material3 = "1.1.2"
+
+[libraries]
+android-core = { module = "androidx.core:core-ktx", version.ref = "android-core" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "ui-tooling" }
+
+decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extension-compose = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
+
+kotlinx-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
+kotlinx-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutine" }
+
+ktor-serialization-kotlinx-json-v234 = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+sqldelight-driver-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-driver-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
+sqldelight-extensions-coroutines = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+
+[plugins]
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">post_parser</string>
+  <string name="HomeScreenTitle">Posts</string>
+  <string name="HomeButton">to posts</string>
+  <string name="AuthorScreenPersonalInfo">Personal</string>
+  <string name="AuthorScreenAddressInfo">Address</string>
+  <string name="AuthorScreenCompanyInfo">Company</string>
+</resources>
