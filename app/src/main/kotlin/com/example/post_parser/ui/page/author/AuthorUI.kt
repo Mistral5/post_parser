@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,12 +26,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.example.post_parser.R
 import com.example.post_parser.data.DataState
 import com.example.post_parser.data.model.Author
 import com.example.post_parser.ui.module.BasicIconButton
+import com.example.post_parser.ui.module.BasicVerifiedText
 import com.example.post_parser.ui.theme.ItimTypography
 import com.example.post_parser.ui.theme.Lilac
 import com.example.post_parser.ui.theme.Pink
@@ -39,23 +40,26 @@ import kotlinx.coroutines.launch
 @Composable
 fun AuthorPageUI(component: AuthorPage) {
   val coroutineScope = rememberCoroutineScope()
-  val dataState = remember { mutableStateOf<DataState>(DataState.Loading) }
+  val model by component.model.subscribeAsState()
 
-  fun updateAuthorInfo() = coroutineScope.launch { dataState.value = component::getAuthor.invoke() }
+  fun updateAuthorInfo() =
+    coroutineScope.launch {
+      component::getAuthor.invoke()
+    }
 
   LaunchedEffect(Unit) {
     updateAuthorInfo()
   }
 
-  when (val state = dataState.value) {
-    is DataState.Success<*> -> {
-      val author: Author = state.data as Author
+  when (val state = model.author) {
+    is DataState.Success<Author> -> {
+      val author: Author = state.data
       Column(
         modifier =
-        Modifier
-          .fillMaxSize()
-          .background(color = Pink)
-          .padding(12.dp),
+          Modifier
+            .fillMaxSize()
+            .background(color = Pink)
+            .padding(12.dp),
       ) {
         Row(
           modifier = Modifier.fillMaxWidth(),
@@ -65,9 +69,9 @@ fun AuthorPageUI(component: AuthorPage) {
         }
         Text(
           modifier =
-          Modifier
-            .padding(top = 12.dp, start = 12.dp, end = 12.dp)
-            .fillMaxWidth(),
+            Modifier
+              .padding(top = 12.dp, start = 12.dp, end = 12.dp)
+              .fillMaxWidth(),
           text = author.username,
           style = ItimTypography.titleLarge,
           textAlign = TextAlign.Center,
@@ -83,41 +87,21 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-            CardDefaults.cardColors(
-              containerColor = Color.White,
-            ),
+              CardDefaults.cardColors(
+                containerColor = Color.White,
+              ),
             elevation =
-            CardDefaults.cardElevation(
-              defaultElevation = 12.dp,
-            ),
+              CardDefaults.cardElevation(
+                defaultElevation = 12.dp,
+              ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
             ) {
-              Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "name: ${author.name}",
-                style = ItimTypography.bodyMedium,
-                color = Lilac,
-              )
-              Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "email: ${author.email}",
-                style = ItimTypography.bodyMedium,
-                color = Lilac,
-              )
-              Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "phone: ${author.phone}",
-                style = ItimTypography.bodyMedium,
-                color = Lilac,
-              )
-              Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "website: ${author.website}",
-                style = ItimTypography.bodyMedium,
-                color = Lilac,
-              )
+              BasicVerifiedText(key = "name", value = author.name)
+              BasicVerifiedText(key = "email", value = author.email)
+              BasicVerifiedText(key = "phone", value = author.phone)
+              BasicVerifiedText(key = "website", value = author.website)
             }
           }
         }
@@ -133,28 +117,28 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-            CardDefaults.cardColors(
-              containerColor = Color.White,
-            ),
+              CardDefaults.cardColors(
+                containerColor = Color.White,
+              ),
             elevation =
-            CardDefaults.cardElevation(
-              defaultElevation = 12.dp,
-            ),
+              CardDefaults.cardElevation(
+                defaultElevation = 12.dp,
+              ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
             ) {
+              BasicVerifiedText(key = "street", value = author.address.street)
+              BasicVerifiedText(key = "suite", value = author.address.suite)
+              BasicVerifiedText(key = "city", value = author.address.city)
+              BasicVerifiedText(key = "zipcode", value = author.address.zipcode)
               Text(
                 modifier = Modifier.fillMaxWidth(),
                 text =
-                "street: ${author.address.street}\n" +
-                  "suite: ${author.address.suite}\n" +
-                  "city: ${author.address.city}\n" +
-                  "zipcode: ${author.address.zipcode}\n" +
                   "geo: { " +
-                  "lat: ${author.address.geo.lat}, " +
-                  "lng: ${author.address.geo.lng} " +
-                  "}",
+                    "lat: ${author.address.geo.lat}, " +
+                    "lng: ${author.address.geo.lng} " +
+                    "}",
                 style = ItimTypography.bodyMedium,
                 color = Lilac,
               )
@@ -173,26 +157,20 @@ fun AuthorPageUI(component: AuthorPage) {
           ElevatedCard(
             shape = RoundedCornerShape(size = 24.dp),
             colors =
-            CardDefaults.cardColors(
-              containerColor = Color.White,
-            ),
+              CardDefaults.cardColors(
+                containerColor = Color.White,
+              ),
             elevation =
-            CardDefaults.cardElevation(
-              defaultElevation = 12.dp,
-            ),
+              CardDefaults.cardElevation(
+                defaultElevation = 12.dp,
+              ),
           ) {
             Column(
               modifier = Modifier.padding(12.dp),
             ) {
-              Text(
-                modifier = Modifier.fillMaxWidth(),
-                text =
-                "name: ${author.company.name}\n" +
-                  "catchPhrase: ${author.company.catchPhrase}\n" +
-                  "bs: ${author.company.bs}",
-                style = ItimTypography.bodyMedium,
-                color = Lilac,
-              )
+              BasicVerifiedText(key = "name", value = author.company.name)
+              BasicVerifiedText(key = "catchPhrase", value = author.company.catchPhrase)
+              BasicVerifiedText(key = "bs", value = author.company.bs)
             }
           }
         }
@@ -202,10 +180,10 @@ fun AuthorPageUI(component: AuthorPage) {
     is DataState.Loading -> {
       Column(
         modifier =
-        Modifier
-          .fillMaxSize()
-          .background(color = Pink)
-          .padding(12.dp),
+          Modifier
+            .fillMaxSize()
+            .background(color = Pink)
+            .padding(12.dp),
       ) {
         Row(
           modifier = Modifier.fillMaxWidth(),
@@ -228,10 +206,10 @@ fun AuthorPageUI(component: AuthorPage) {
 
       Column(
         modifier =
-        Modifier
-          .fillMaxSize()
-          .background(color = Pink)
-          .padding(12.dp),
+          Modifier
+            .fillMaxSize()
+            .background(color = Pink)
+            .padding(12.dp),
       ) {
         Row(
           modifier = Modifier.fillMaxWidth(),

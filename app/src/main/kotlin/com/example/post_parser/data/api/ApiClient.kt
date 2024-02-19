@@ -31,7 +31,7 @@ object HttpClientFactory {
       }
 
       install(HttpTimeout) {
-        requestTimeoutMillis = 2000
+        requestTimeoutMillis = 5000
       }
       expectSuccess = true
 
